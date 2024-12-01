@@ -1,4 +1,25 @@
-<?php require './nudges.php'; ?>
+<?php
+require './nudges.php';
+
+foreach($nudges as $n => $nudge) { // Check all the entries for ranges, and expand if necessary. 3-6 -> 03,04,05,06
+	if(stristr($nudge['cron'], '-')) {
+		preg_match('/^(.*) (.*) (.*) (.*) (.*)$/', $nudge['cron'], $sets); unset($sets[0]);
+		foreach($sets as $s => $set) {
+			preg_match('/^([0-9]{1,2})-([0-9]{1,2})$/', $set, $hours);
+		
+			if(count($hours) == 3) {
+				$range = '';
+				for($i = $hours[1]; $i <= $hours[2]; $i++) {
+					$range .= str_pad($i, 2, '0', STR_PAD_LEFT).',';
+				}
+				$sets[$s] = trim($range, ',');
+			}
+		}
+		$nudges[$n]['cron'] = implode(' ', $sets);
+	}
+}
+
+?>
 <!doctype html>
 <html lang="en" dir="ltr">
 <head>
