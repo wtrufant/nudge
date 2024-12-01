@@ -62,7 +62,7 @@ foreach($nudges as $n => $nudge) { // Check all the entries for ranges, and expa
 	const sleepMS = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 	function zeroPad(i) { if (i < 10) { i = "0" + i; } return i; }
 
-	let manual, msg, yyyy, mm, dd, DoW, hh, ii, ss;
+	let manual, msg, yyyy, mm, dd, wd, hh, ii, ss;
 	//let audio = new Audio('ping.mp3'); // https://pixabay.com/sound-effects/level-up-3-199576/
 	let audio = document.getElementById('ping'); // https://pixabay.com/sound-effects/level-up-3-199576/
 	let ul = document.getElementById("list");
@@ -79,7 +79,7 @@ foreach($nudges as $n => $nudge) { // Check all the entries for ranges, and expa
 	}
 
 	function checkItem(row) {
-		const regex = new RegExp(`^(\\*|[0-9,]*${ii},?[0-9,]*) (\\*|[0-9,]*${hh},?[0-9,]*) (\\*|[0-9,]*${dd},?[0-9,]*) (\\*|[0-9,]*${mm},?[0-9,]*) (\\*|[0-7,]*${DoW},?[0-7,]*)$`);
+		const regex = new RegExp(`^(\\*|[0-9,]*${ii},?[0-9,]*) (\\*|[0-9,]*${hh},?[0-9,]*) (\\*|[0-9,]*${dd},?[0-9,]*) (\\*|[0-9,]*${mm},?[0-9,]*) (\\*|[0-7,]*${wd},?[0-7,]*)$`);
 		if(regex.test(row['cron'])) {
 			var li = document.createElement("li");
 			if(row['exp'] != '') { addMinutes(row['exp']); } //li.setAttribute('data-expire', ); }
@@ -109,7 +109,7 @@ foreach($nudges as $n => $nudge) { // Check all the entries for ranges, and expa
 		yyyy = now.getFullYear();
 		mm = zeroPad(now.getMonth()+1);
 		dd = zeroPad(now.getDate());
-		DoW = now.getDay();
+		wd = zeroPad(now.getDay());
 		hh = zeroPad(now.getHours());
 		ii = zeroPad(now.getMinutes());
 		ss = zeroPad(now.getSeconds());
